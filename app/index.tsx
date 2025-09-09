@@ -1,10 +1,12 @@
 import products from "@/assets/data/products";
 import ProductListItem from "@/components/ProductListItem";
 import { Ionicons } from "@expo/vector-icons";
-import { FlatList, StatusBar, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { FlatList, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function MenuScreen() {
+  const router = useRouter();
   return (
    <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
      <StatusBar barStyle="dark-content"/>
@@ -12,7 +14,9 @@ export default function MenuScreen() {
      {/* Header */}
      <View style={styles.header}>
        <Text style={styles.title}>Menu</Text>
-       <Ionicons name="information-circle-outline" size={24} color="#666" />
+       <Pressable onPress={() => router.push("/cart")} hitSlop={8} style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}>
+         <Ionicons name="cart-outline" size={24} color="#1f1f1f" />
+       </Pressable>
      </View>
 
      {/* Menu Grid */}

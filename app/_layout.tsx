@@ -46,6 +46,12 @@ export default function RootLayout() {
           href: null, // Hide this tab from the tab bar
         }}
       />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          href: null, // Hide cart from the tab bar
+        }}
+      />
     </Tabs>
   );
 }
