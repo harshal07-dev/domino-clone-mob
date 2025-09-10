@@ -1,15 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import CartProvider from "./providers/CartProvider";
 
 export default function RootLayout() {
   return (
+    <CartProvider>
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "#007AFF",
         tabBarInactiveTintColor: "#8E8E93",
         tabBarStyle: {
-          backgroundColor: "#ffffff",
+          backgroundColor: "#ffff",
           borderTopWidth: 1,
           borderTopColor: "#E5E5EA",
           paddingBottom: 8,
@@ -53,5 +55,6 @@ export default function RootLayout() {
         }}
       />
     </Tabs>
+    </CartProvider>
   );
 }

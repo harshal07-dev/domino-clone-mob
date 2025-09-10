@@ -1,22 +1,27 @@
 import products from "@/assets/data/products";
 import Button from "@/components/Button";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useCart } from "./providers/CartProvider";
 
 const sizes = ["S", "M", "L", "XL"];
 
 const ProductDemo = () => {
   const { id } = useLocalSearchParams();
+  const router = useRouter();
   
   const [selectedSize, setSelectedSize] = useState('M')
 
   const product = products.find((p) => p.id.toString() === id);
+  const { addItem } = useCart();
 
   const addToCart = () => {
-    console.warn('Adding to cart, size: ', selectedSize  )
-  }
+    if (!product) return;
+    addItem(product, selectedSize as any);
+    router.push("/cart");
+  };
 
   if (!product) {
     return <Text>Product not found</Text>;
