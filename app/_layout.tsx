@@ -1,3 +1,4 @@
+import { RoleContext } from "@/providers/RoleContext";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
@@ -23,6 +24,7 @@ export default function RootLayout() {
   }
 
   return (
+    <RoleContext.Provider value={{ isAdmin, setIsAdmin }}>
     <CartProvider>
     <Tabs
       screenOptions={{
@@ -86,6 +88,7 @@ export default function RootLayout() {
       />
     </Tabs>
     </CartProvider>
+    </RoleContext.Provider>
   );
 }
 

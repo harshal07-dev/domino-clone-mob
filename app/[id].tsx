@@ -1,5 +1,7 @@
 import products from "@/assets/data/products";
 import Button from "@/components/Button";
+import { useRole } from "@/providers/RoleContext";
+import { Ionicons } from "@expo/vector-icons";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
@@ -16,6 +18,7 @@ const ProductDemo = () => {
 
   const product = products.find((p) => p.id.toString() === id);
   const { addItem } = useCart();
+  const { isAdmin } = useRole();
 
   const addToCart = () => {
     if (!product) return;
@@ -36,35 +39,50 @@ const ProductDemo = () => {
           </Pressable>
         </Link>
         <Text style={styles.headerTitle}>{product?.name ?? "Product"}</Text>
+        {isAdmin && (
+          <Pressable style={styles.editIcon} hitSlop={8}>
+            <Ionicons name="pencil" size={22} color="dodgerblue" />
+          </Pressable>
+        )}
       </View>
       <View>
         <Image source={{ uri: product.image }} style={styles.image} />
       </View>
 
-      <View style={styles.content}>
-        <Text style={{fontSize: 18}}>Select size</Text>
-        <View style={styles.sizesRow}>
-          {sizes.map((size) => (
-            <Text
-              key={size}
-              onPress={() => setSelectedSize(size)} 
-              style={[
-                styles.sizePill,
-                {backgroundColor: selectedSize === size ? 'dodgerblue' : 'white',
-                  color: selectedSize === size ? 'white' : '#000'
+      {/* Name and price always visible */}
+      <View style={styles.infoBlock}>
+        <Text style={styles.productName}>{product.name}</Text>
+        <Text style={styles.productPrice}>${product.price.toFixed(2)}</Text>
+      </View>
+
+      {!isAdmin && (
+        <View style={styles.content}>
+          <Text style={{fontSize: 18}}>Select size</Text>
+          <View style={styles.sizesRow}>
+            {sizes.map((size) => (
+              <Text
+                key={size}
+                onPress={() => setSelectedSize(size)} 
+                style={[
+                  styles.sizePill,
+                  {backgroundColor: selectedSize === size ? 'dodgerblue' : 'white',
+                    color: selectedSize === size ? 'white' : '#000'
+                  }
+                ]
                 }
-              ]
-              }
-            >
-              {size}
-            </Text>
-          ))}
+              >
+                {size}
+              </Text>
+            ))}
+          </View>
         </View>
-      </View>
-      <View style={styles.footer}>
-        <Text style={styles.title}>${product.price}</Text>
-        <Button onPress={addToCart} text='Add to cart'/>
-      </View>
+      )}
+      {!isAdmin && (
+        <View style={styles.footer}>
+          <Text style={styles.title}>${product.price}</Text>
+          <Button onPress={addToCart} text='Add to cart'/>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -115,6 +133,25 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#111",
     textAlign: "right",
+  },
+  editIcon: {
+    position: 'absolute',
+    right: 12,
+    top: 14,
+  },
+  infoBlock: {
+    paddingHorizontal: 16,
+    paddingTop: 8,
+  },
+  productName: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#111'
+  },
+  productPrice: {
+    marginTop: 4,
+    fontSize: 16,
+    color: '#111'
   },
   title: {
     fontSize: 20,
