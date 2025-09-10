@@ -6,6 +6,7 @@ type CartContextValue = {
   addItem: (product: Product, size: PizzaSize) => void;
   increase: (itemId: string) => void;
   decrease: (itemId: string) => void;
+  total: number;
 };
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
@@ -60,9 +61,13 @@ const CartProvider = ({ children }: CartProviderProps) => {
     );
   };
 
+  const total = useMemo(() => {
+    return items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  }, [items]);
+
   const value = useMemo(
-    () => ({ items, addItem, increase, decrease }),
-    [items]
+    () => ({ items, addItem, increase, decrease, total }),
+    [items, total]
   );
 
   return (

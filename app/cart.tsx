@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useCart } from './providers/CartProvider'
 
 const CartScreen = () => {
-  const { items, increase, decrease } = useCart()
+  const { items, increase, decrease , total} = useCart()
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top','left','right']}>
@@ -33,6 +33,7 @@ const CartScreen = () => {
         </View>
       ))}
       <View style={styles.btnContainer}>
+        <Text style={{fontSize: 20, fontWeight: 'bold', fontStyle: 'italic'}}>Total: ${total}</Text>
         <Button text='Checkout' onPress={() => {}} />
       </View>
     </SafeAreaView>
