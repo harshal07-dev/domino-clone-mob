@@ -42,6 +42,17 @@ export default function RootLayout() {
           fontWeight: "500",
         },
       }}
+      screenListeners={{
+        state: (e: any) => {
+          try {
+            const role = isAdmin ? 'admin' : 'user';
+            const routeNames = e?.data?.state?.routeNames ?? [];
+            const index = e?.data?.state?.index ?? 0;
+            const current = routeNames[index] ?? 'menu';
+            console.log(`(${role})`, current);
+          } catch {}
+        },
+      }}
     >
       <Tabs.Screen
         name="index"
