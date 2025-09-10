@@ -1,3 +1,4 @@
+import Button from '@/components/Button'
 import React from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -31,6 +32,9 @@ const CartScreen = () => {
           </View>
         </View>
       ))}
+      <View style={styles.btnContainer}>
+        <Button text='Checkout' onPress={() => {}} />
+      </View>
     </SafeAreaView>
   )
 }
@@ -96,5 +100,11 @@ const styles = StyleSheet.create({
   qty:{
     width:24,
     textAlign:'center'
+  },
+  checkBtn: {
+    borderRadius: 30,
+  },
+  btnContainer: {
+    padding: 10,
   }
 })
